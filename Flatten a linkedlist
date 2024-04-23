@@ -1,0 +1,147 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
+/**************************************************************** Approach 1
+
+ Following is the class structure of the Node class:
+
+ class Node {
+     public int data;
+     public Node next;
+     public Node child;
+
+     Node()
+     {
+         this.data = 0;
+         this.next = null;
+         this.child = null;
+     }
+     Node(int data)
+     {
+         this.data = data;
+         this.next = null;
+         this.child = null;
+     }
+     Node(int data, Node next, Node child)
+     {
+         this.data = data;
+         this.next = next;
+         this.child = child;
+     }
+ }
+
+ *****************************************************************/
+
+public class Solution {
+    public static Node flattenLinkedList(Node head) {
+        //Write your code here
+        ArrayList<Integer> list1=new ArrayList();
+        Node temp=head;
+        while(temp!=null){
+            Node curr=temp;
+            while(curr!=null){
+                list1.add(curr.data);
+                curr=curr.child;
+            }
+            temp=temp.next;
+        }
+
+        Collections.sort(list1);
+        // if(list1.size()==0){
+        //     return null;
+        // }
+
+        Node dummy=new Node(list1.get(0));
+        temp=dummy;
+        for(int i=1;i<list1.size();i++){
+            temp.child=new Node(list1.get(i));
+            temp=temp.child;
+        }
+        return dummy;
+    }
+}
+
+
+/**************************************************************** Approach 2
+
+/****************************************************************
+
+ Following is the class structure of the Node class:
+
+ class Node {
+     public int data;
+     public Node next;
+     public Node child;
+
+     Node()
+     {
+         this.data = 0;
+         this.next = null;
+         this.child = null;
+     }
+     Node(int data)
+     {
+         this.data = data;
+         this.next = null;
+         this.child = null;
+     }
+     Node(int data, Node next, Node child)
+     {
+         this.data = data;
+         this.next = next;
+         this.child = child;
+     }
+ }
+
+ *****************************************************************/
+
+public class Solution {
+
+    public static Node depth(Node head){
+        if(head==null || head.next==null){
+            return head;
+        }
+        Node mergeHead=depth(head.next);
+        Node mergehead=merging(head,mergeHead);
+        return mergehead;
+    }
+
+    public static Node merging(Node head1,Node head2){
+        head1.next=null;
+        head2.next=null;
+        Node dummy=new Node(-1);
+        Node temp=dummy;
+        while(head1!=null && head2!=null){
+            if(head1.data<head2.data){
+                temp.child=head1;
+                temp=temp.child;
+                head1=head1.child;
+            }
+            else{
+                temp.child=head2;
+                temp=temp.child;
+                head2=head2.child;
+            }
+            // temp.next=null;
+        }
+        if(head1!=null){
+            temp.child=head1;
+        }
+       else{
+            temp.child=head2;
+        }
+        if(dummy.child!=null){
+            dummy.child.next=null;
+        }
+        return dummy.child;
+    }
+    public static Node flattenLinkedList(Node head) {
+        //Write your code here
+        Node temp=head;
+
+        return depth(temp);
+    }
+}
+
+
+
