@@ -1,0 +1,20 @@
+class Solution {
+    public ListNode oddEvenList(ListNode head) {
+        if(head==null || head.next==null){
+            return head;
+        }
+        ListNode ptrO=head;
+        // ListNode ans=ptrO;
+        ListNode ptrE=head.next;
+        ListNode headE=ptrE;
+        while(ptrO.next!=null && ptrE.next!=null){
+            ptrO.next=ptrE.next;
+            ptrO=ptrE.next;
+            ptrE.next=ptrO.next;
+            ptrE=ptrO.next;
+            
+        }
+        ptrO.next=headE;
+        return head;
+    }
+}
